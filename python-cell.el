@@ -21,6 +21,11 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
+;; Major parts of the highlighting code were taken from hl-line-mode.el.
+
+
 ;;; Installation:
 
 ;; - If you use el-get you can use this recipe to download and install
