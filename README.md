@@ -2,10 +2,14 @@
 
 MATLAB-like cells in python
 
+![Screenshot of python-cell mode in action](http://farm4.staticflickr.com/3710/9448464257_6a7b2baf2a_o_d.png)
+
 ## Key Bindings
 
 `Ctrl-Return` - send contents of the current cell to an inferior python process
+
 `Ctrl-Down` - move to the beginning of the next cell
+
 `Ctrl-Up` - move to the beginning of the previous cell
 
 ##  Installation
