@@ -203,9 +203,10 @@ It should return nil if there's no region to be highlighted."
                                      (point))
                             (point-max))))))
       (progn
-        ;; TODO check if r-start is point-min and r-end point-max if yes return nil
-        (message "cp is %s start is %s; end is %s" (point) r-start r-end)
-        `(,r-start . ,r-end)))))
+        ;; (message "cp is %s start is %s; end is %s" (point) r-start r-end)
+        (if (and (eq r-start (point-min)) (eq r-end (point-max)))
+            nil
+          `(,r-start . ,r-end))))))
 
 (defun python-cell-highlight ()
   "Activate the Python-Cell overlay on the current line."
