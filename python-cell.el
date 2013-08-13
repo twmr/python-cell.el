@@ -80,7 +80,7 @@
 
 (defcustom python-cell-cellbreak-regexp
   (rx line-start (* space)
-          (group (and "#" (or (and "#" (* (not (any "\n"))))
+          (group (and "#" (or (and "#" space (* (not (any "\n"))))
                               (and " <" (or "codecell" "markdowncell") ">"))
                       line-end)))
   "Regexp used for detecting the cell boundaries of code cells/blocks."
