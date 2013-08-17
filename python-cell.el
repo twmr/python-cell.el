@@ -253,6 +253,9 @@ It should return nil if there's no region to be highlighted."
     map)
   "Key map for Python-Cell minor mode.")
 
+(defalias #'what-cell #'what-page)
+(defalias #'narrow-to-cell #'narrow-to-page)
+
 ;;; Minor mode:
 
 ;;;###autoload
@@ -262,6 +265,8 @@ It should return nil if there's no region to be highlighted."
   (let ((arg `((,python-cell-cellbreak-regexp 1 'python-cell-cellbreak-face prepend))))
     (if (not python-cell-mode) ;; OFF
         (font-lock-remove-keywords nil arg)
+      (make-local-variable 'page-delimiter)
+      (setq page-delimiter python-cell-cellbreak-regexp)
       (font-lock-add-keywords nil arg)
       (when python-cell-highlight-cell
         (python-cell-setup-cellhighlight))))
