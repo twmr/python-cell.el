@@ -58,6 +58,8 @@
 
 ;;; Code:
 
+(require 'python)
+
 (defgroup python-cell nil
   "MATLAB-like cells in python mode."
   :group 'python)
@@ -80,9 +82,9 @@
 
 (defcustom python-cell-cellbreak-regexp
   (rx line-start (* space)
-          (group (and "#" (or (and "#" space (* (not (any "\n"))))
-                              (and " <" (or "codecell" "markdowncell") ">"))
-                      line-end)))
+      (group (and "#" (or (and "#" space (* (not (any "\n"))))
+                          (and " <" (or "codecell" "markdowncell") ">"))
+                  line-end)))
   "Regexp used for detecting the cell boundaries of code cells/blocks."
   :type 'string
   :group 'python-cell
@@ -217,7 +219,7 @@ It should return nil if there's no region to be highlighted."
           (overlay-put python-cell-overlay 'face python-cell-highlight-face))
         (overlay-put python-cell-overlay
                      'window (unless python-cell-sticky-flag (selected-window)))
-  (python-cell-move python-cell-overlay))
+        (python-cell-move python-cell-overlay))
     (python-cell-unhighlight)))
 
 (defun python-cell-unhighlight ()
