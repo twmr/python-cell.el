@@ -224,8 +224,8 @@ It should return nil if there's no region to be highlighted."
     map)
   "Key map for Python-Cell minor mode.")
 
-(defalias #'what-cell #'what-page)
-(defalias #'narrow-to-cell #'narrow-to-page)
+(defalias 'what-cell #'what-page)
+(defalias 'narrow-to-cell #'narrow-to-page)
 
 ;;; Minor mode:
 
