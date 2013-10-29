@@ -14,24 +14,38 @@ MATLAB-like cells in python
 
 ##  Installation
 
+### el-get
+
 If you use el-get you can use this recipe to download and install
 `python-cell-mode`:
 
-```cl
-  (:name python-cell
+```lisp
+(:name python-cell
       :description "MATLAB-like cells in python"
       :type github
       :pkgname "thisch/python-cell.el")
-  ```
+```
 
-If not, place `python-cell.el` in your load path.
+### MELPA
+
+If you're an Emacs 24 user or you have a recent version of package.el you can install python-cell-mode from the MELPA repository.
+
+### Manual
+
+Just drop `python-cell.el` somewhere in your load path, e.g., `~/.emacs.d/vendor`.
+
+```lisp
+(add-to-list 'load-path "~/emacs.d/vendor")
+(require 'python-cell)
+```
+
+## Usage
 
 To enable `python-cell` mode in all python buffers (Emacs 24+):
 
-```cl
-  (require 'python-cell)
-  (add-hook 'python-mode-hook #'python-cell-mode 1)
-  ```
+```lisp
+(add-hook 'python-mode-hook #'python-cell-mode 1)
+```
 
 To temporarily activate `python-cell` mode in an open (python) buffer:
 
@@ -43,6 +57,5 @@ To temporarily activate `python-cell` mode in an open (python) buffer:
 
 ## TODO
 
-* melpa package
 * add support for more programming languages
 * imenu support
