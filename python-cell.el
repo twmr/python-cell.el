@@ -281,3 +281,5 @@ It should return nil if there's no region to be highlighted."
   (python-cell-mode 0))
 
 (provide 'python-cell)
+;;; python-cell.el ends here
+
