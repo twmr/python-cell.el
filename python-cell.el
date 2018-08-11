@@ -63,7 +63,7 @@
   "Overlay used by Python-Cell mode to highlight the current cell.")
 (make-variable-buffer-local 'python-cell-overlay)
 
-(defcustom python-cell-highlight-face 'python-cell
+(defcustom python-cell-highlight-face 'python-cell-highlight-face
   "Face with which to highlight the current cell in Python-Cell mode."
   :type 'face
   :group 'python-cell
