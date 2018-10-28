@@ -44,7 +44,7 @@
   :group 'python-cell)
 
 (defcustom python-cell-highlight-cell t
-  "Non-nil tells Python-Cell mode to hightlight the current cell."
+  "Non-nil tells Python-Cell mode to highlight the current cell."
   :type 'boolean
   :group 'python-cell
   :safe 'booleanp)
