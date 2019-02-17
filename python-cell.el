@@ -241,7 +241,7 @@ It should return nil if there's no region to be highlighted."
       (font-lock-add-keywords nil arg)
       (when python-cell-highlight-cell
         (python-cell-setup-cellhighlight))))
-  (font-lock-fontify-buffer))
+  (font-lock-flush))
 
 ;;;###autoload
 (defun python-cell-mode-enable ()
