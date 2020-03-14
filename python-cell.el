@@ -149,7 +149,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     ;; (goto-char end)
     ;; (push-mark start)
     ;; (activate-mark)))
-    (python-cell-shell-send-region start end)))
+    (python-shell-send-region start end)))
 
 
 ;;; Cell Highlighting
