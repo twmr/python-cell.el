@@ -1,3 +1,6 @@
+[![MELPA](http://melpa.org/packages/python-cell-badge.svg)](http://melpa.org/#/python-cell)
+[![Build Status](https://travis-ci.org/thisch/python-cell.el.svg?branch=master)](https://travis-ci.org/thisch/python-cell.el)
+
 # python-cell.el
 
 MATLAB-like cells in python
