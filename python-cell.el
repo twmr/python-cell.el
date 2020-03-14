@@ -3,10 +3,11 @@
 ;; Copyright (C) 2013 Thomas Hisch.
 ;; Author: Thomas Hisch <t.hisch@gmail.com>
 ;; Maintainer: Thomas Hisch <t.hisch@gmail.com>
-;; Created: 2013-07-05
+;; URL: https://github.com/thisch/python-cell.el
 ;; Version: 1.0
-;; Keywords: python, matlab, cell
-;; Github: http://github.com/thisch/python-cell.el
+;; Package-Requires: ((emacs "25.1"))
+;; Created: 2013-07-05
+;; Keywords: extensions, python, matlab, cell
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -84,21 +85,21 @@ the command `python-cell-mode' to turn Python-Cell mode on."
 
 ;; Navigation
 
-(defun python-forward-cell  (&optional arg)
+(defun python-cell-forward-cell  (&optional arg)
   (interactive "p")
   ;; TODO: prefix support
 
-  (python-end-of-cell)
+  (python-cell-end-of-cell)
   (if (re-search-forward python-cell-cellbreak-regexp nil t)
       (progn (end-of-line)
              (forward-char 1))
     (goto-char (point-max))))
 
-(defun python-backward-cell  (&optional arg)
+(defun python-cell-backward-cell  (&optional arg)
   (interactive "p")
   ;; TODO: prefix support
 
-  (python-beginning-of-cell)
+  (python-cell-beginning-of-cell)
   (forward-char -1)
   (beginning-of-line)
   (and (save-excursion (re-search-backward python-cell-cellbreak-regexp
@@ -115,7 +116,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
              (forward-char 1))
     (goto-char (point-min))))
 
-(defun python-beginning-of-cell (&optional arg)
+(defun python-cell-beginning-of-cell (&optional arg)
   (interactive "p")
   ;; TODO: prefix support
 
@@ -126,7 +127,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
              (forward-char 1))
     (goto-char (point-min))))
 
-(defun python-end-of-cell (&optional arg)
+(defun python-cell-end-of-cell (&optional arg)
   (interactive "p")
   ;; TODO: prefix support
 
@@ -137,18 +138,18 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     (goto-char (point-max))))
 
 
-(defun python-shell-send-cell ()
+(defun python-cell-shell-send-cell ()
   "Send the cell the cursor is in to the inferior Python process."
   (interactive)
   (let (
-        (start (save-excursion (python-beginning-of-cell)
+        (start (save-excursion (python-cell-beginning-of-cell)
                                (point)))
-        (end (save-excursion (python-end-of-cell)
+        (end (save-excursion (python-cell-end-of-cell)
                              (point))))
     ;; (goto-char end)
     ;; (push-mark start)
     ;; (activate-mark)))
-    (python-shell-send-region start end)))
+    (python-cell-shell-send-region start end)))
 
 
 ;;; Cell Highlighting
@@ -165,8 +166,7 @@ It should return nil if there's no region to be highlighted."
                             (if (re-search-backward python-cell-cellbreak-regexp nil t)
                                 (progn (goto-char (match-beginning 0))
                                        (point))
-                              (point-min)
-                              ))))
+                              (point-min)))))
           (r-end (save-excursion
                    (progn (end-of-line)
                           (if (re-search-forward python-cell-cellbreak-regexp nil t)
@@ -218,14 +218,14 @@ It should return nil if there's no region to be highlighted."
 
 (defvar python-cell-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map [(control return)] 'python-shell-send-cell)
-    (define-key map [(control down)] 'python-forward-cell)
-    (define-key map [(control up)] 'python-backward-cell)
+    (define-key map [(control return)] 'python-cell-shell-send-cell)
+    (define-key map [(control down)] 'python-cell-forward-cell)
+    (define-key map [(control up)] 'python-cell-backward-cell)
     map)
   "Key map for Python-Cell minor mode.")
 
-(defalias 'what-cell #'what-page)
-(defalias 'narrow-to-cell #'narrow-to-page)
+(defalias 'python-cell-what-cell #'what-page)
+(defalias 'python-cell-narrow-to-cell #'narrow-to-page)
 
 ;;; Minor mode:
 
