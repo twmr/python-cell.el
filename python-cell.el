@@ -60,6 +60,8 @@
   :group 'python-cell
   :safe 'stringp)
 
+(defvar python-cell-mode)
+
 (defvar python-cell-overlay nil
   "Overlay used by Python-Cell mode to highlight the current cell.")
 (make-variable-buffer-local 'python-cell-overlay)
