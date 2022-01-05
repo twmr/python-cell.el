@@ -234,8 +234,6 @@ It should return nil if there's no region to be highlighted."
 ;;;###autoload
 (define-minor-mode python-cell-mode
   "Highlight MATLAB-like cells and navigate between them."
-  :init-value nil
-  :lighter "python:cell"
   :keymap python-cell-mode-map
   (let ((arg `((,python-cell-cellbreak-regexp 1 'python-cell-cellbreak-face prepend))))
     (if (not python-cell-mode) ;; OFF
