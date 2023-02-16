@@ -51,10 +51,14 @@
   :safe 'booleanp)
 
 (defcustom python-cell-cellbreak-regexp
-  (rx line-start (* space)
-      (group (and "#" (or (and "#" space (* (not (any "\n"))))
-                          (and " <" (or "codecell" "markdowncell") ">"))
-                  line-end)))
+  (rx line-start 
+      (or (and (* space)
+               (group-n 1 (and "#" (or (and "#" space (* (not (any "\n"))))
+                                       (and " <" (or "codecell" "markdowncell") ">"))
+                               line-end)))
+          (group-n 1 (and "if False:"
+                          (* (not (any "\n")))
+                          line-end))))
   "Regexp used for detecting the cell boundaries of code cells/blocks."
   :type 'string
   :group 'python-cell
@@ -118,16 +122,27 @@ the command `python-cell-mode' to turn Python-Cell mode on."
              (forward-char 1))
     (goto-char (point-min))))
 
+(defun python-cell-beginning-of-matched-cellbreak ()
+  (goto-char (match-beginning 0))
+  (beginning-of-line))
+
+(defun python-cell-end-of-matched-cellbreak ()
+  (goto-char (match-end 0))
+  (end-of-line)
+  (forward-char 1))
+  
+
+(defun python-cell-beginning-of-cell--sub (cellbreak-goto-function)
+  (end-of-line)
+  (if (re-search-backward python-cell-cellbreak-regexp nil t)
+      (funcall cellbreak-goto-function)
+    (goto-char (point-min))))
+
 (defun python-cell-beginning-of-cell (&optional arg)
   (interactive "p")
   ;; TODO: prefix support
-
-  (end-of-line)
-  (if (re-search-backward python-cell-cellbreak-regexp nil t)
-      (progn (goto-char (match-end 0))
-             (end-of-line)
-             (forward-char 1))
-    (goto-char (point-min))))
+  
+  (python-cell-beginning-of-cell--sub #'python-cell-end-of-matched-cellbreak))
 
 (defun python-cell-end-of-cell (&optional arg)
   (interactive "p")
@@ -139,20 +154,21 @@ the command `python-cell-mode' to turn Python-Cell mode on."
              (forward-char -1))
     (goto-char (point-max))))
 
+(defun python-cell-preprocess-cell (cellstring)
+  (let ((prefix "if False:"))
+    (if (string-prefix-p prefix cellstring)
+        (concat "if True:" (substring cellstring (length prefix)))
+      cellstring)))
 
 (defun python-cell-shell-send-cell ()
   "Send the cell the cursor is in to the inferior Python process."
   (interactive)
   (let (
-        (start (save-excursion (python-cell-beginning-of-cell)
+        (start (save-excursion (python-cell-beginning-of-cell--sub #'python-cell-beginning-of-matched-cellbreak)
                                (point)))
         (end (save-excursion (python-cell-end-of-cell)
                              (point))))
-    ;; (goto-char end)
-    ;; (push-mark start)
-    ;; (activate-mark)))
-    (python-shell-send-region start end)))
-
+    (python-shell-send-string (python-cell-preprocess-cell (buffer-substring start end)))))
 
 ;;; Cell Highlighting
 
