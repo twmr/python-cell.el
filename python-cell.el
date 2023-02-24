@@ -200,12 +200,9 @@ It should return nil if there's no region to be highlighted."
 
 (defun python-cell-move (overlay)
   "Move the Python-Cell overlay."
-  (let* ((tmp (python-cell-range-function))
-         (b   (car tmp))
-         (e   (cdr tmp)))
-    (if tmp
-        (move-overlay overlay b e)
-      (move-overlay overlay 1 1))))
+  (if-let ((start-end (python-cell-range-function)))
+      (move-overlay overlay (car start-end) (cdr start-end))
+    (move-overlay overlay 1 1)))
 
 (defun python-cell-setup-cellhighlight ()
   ;; In case `kill-all-local-variables' is called.
