@@ -71,11 +71,11 @@
   :type 'face
   :group 'python-cell
   :set (lambda (symbol value)
-   (set symbol value)
-   (dolist (buffer (buffer-list))
-     (with-current-buffer buffer
-       (when python-cell-overlay
-         (overlay-put python-cell-overlay 'face python-cell-highlight-face))))))
+         (set symbol value)
+         (dolist (buffer (buffer-list))
+           (with-current-buffer buffer
+             (when python-cell-overlay
+               (overlay-put python-cell-overlay 'face python-cell-highlight-face))))))
 
 (defcustom python-cell-sticky-flag nil
   "Non-nil means the Python-Cell mode highlight appears in all windows.
