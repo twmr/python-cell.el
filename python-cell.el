@@ -144,6 +144,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     (goto-char (point-max))))
 
 
+(declare-function jupyter-eval-region "jupyter-client.el" (jupyter-eval-region beg end))
 (defun python-cell-shell-send-cell ()
   "Send the cell the cursor is in to the inferior Python process."
   (interactive)
