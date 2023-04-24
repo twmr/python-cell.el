@@ -85,8 +85,11 @@ the command `python-cell-mode' to turn Python-Cell mode on."
   :type 'boolean
   :group 'python-cell)
 
-(defcustom python-cell-run-region-fn 'shell  "Choice of backend to use for python-cell interactions. Available options are `jupyter` and `shell`."
+(defcustom python-cell-run-region-fn 'shell
+  "Choice of backend to use for python-cell interactions. Available options are
+`jupyter` and `shell`."
   :options '(shell jupyter)
+  :type 'symbol
   :group 'python-cell)
 
 ;; Navigation
