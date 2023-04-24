@@ -85,6 +85,13 @@ the command `python-cell-mode' to turn Python-Cell mode on."
   :type 'boolean
   :group 'python-cell)
 
+(defcustom python-cell-run-region-fn 'shell
+  "Choice of backend to use for python-cell interactions. Available options are
+`jupyter` and `shell`."
+  :options '(shell jupyter)
+  :type 'symbol
+  :group 'python-cell)
+
 ;; Navigation
 
 (defun python-cell-forward-cell  (&optional arg)
@@ -140,6 +147,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     (goto-char (point-max))))
 
 
+(declare-function jupyter-eval-region "jupyter-client.el" (jupyter-eval-region beg end))
 (defun python-cell-shell-send-cell ()
   "Send the cell the cursor is in to the inferior Python process."
   (interactive)
@@ -151,7 +159,9 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     ;; (goto-char end)
     ;; (push-mark start)
     ;; (activate-mark)))
-    (python-shell-send-region start end)))
+    (pcase python-cell-run-region-fn
+      ('shell (python-shell-send-region start end))
+      ('jupyter (jupyter-eval-region start end)))))
 
 
 ;;; Cell Highlighting
