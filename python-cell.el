@@ -163,6 +163,18 @@ the command `python-cell-mode' to turn Python-Cell mode on."
       ('shell (python-shell-send-region start end))
       ('jupyter (jupyter-eval-region start end)))))
 
+(defun python-cell-run-till-point ()
+  "Run all cells until point, not including the cell point is in."
+  (interactive)
+  (let ((pt (point)))
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
+        (while (>= pt (point))
+          (python-cell-shell-send-cell)
+          (python-cell-forward-cell)
+          (python-cell-end-of-cell))))))
 
 ;;; Cell Highlighting
 
