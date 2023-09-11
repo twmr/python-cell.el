@@ -147,7 +147,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     (goto-char (point-max))))
 
 
-(declare-function jupyter-eval-region "jupyter-client.el" (jupyter-eval-region beg end))
+(declare-function jupyter-eval-region "jupyter-client.el" (jupyter-eval-region nil beg end))
 (defun python-cell-shell-send-cell ()
   "Send the cell the cursor is in to the inferior Python process."
   (interactive)
@@ -161,7 +161,7 @@ the command `python-cell-mode' to turn Python-Cell mode on."
     ;; (activate-mark)))
     (pcase python-cell-run-region-fn
       ('shell (python-shell-send-region start end))
-      ('jupyter (jupyter-eval-region start end)))))
+      ('jupyter (jupyter-eval-region nil start end)))))
 
 (defun python-cell-run-till-point ()
   "Run all cells until point, not including the cell point is in."
