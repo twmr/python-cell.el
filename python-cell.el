@@ -1,4 +1,4 @@
-;;; python-cell.el --- Support for MATLAB-like cells in python mode
+;;; python-cell.el --- Support for MATLAB-like cells in python mode -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2013 Thomas Hisch.
 ;; Author: Thomas Hisch <t.hisch@gmail.com>
