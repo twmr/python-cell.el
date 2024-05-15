@@ -94,57 +94,92 @@ the command `python-cell-mode' to turn Python-Cell mode on."
 
 ;; Navigation
 
+(defun python-cell-move-cell-up (&optional arg)
+  "Move the contents of the current cell up.
+Optionally a prefix argument ARG can be provided for repeating it a
+bunch of times."
+  (interactive "p")
+
+  (dotimes (_ (or arg 1))
+    (let ((rngc (python-cell-range-function))
+	  (rngp (save-excursion (python-cell-backward-cell)
+				(python-cell-range-function))))    
+      (goto-char (car rngp))
+      (kill-region (car rngc) (cdr rngc))
+      (yank)
+      (python-cell-backward-cell)))
+  )
+
+(defun python-cell-move-cell-down (&optional arg)
+  "Move the contents of the current cell down.
+Optionally a prefix argument ARG can be provided for repeating it a
+  bunch of times." 
+  (interactive "p")
+
+  (dotimes (_ (or arg 1))
+    (let ((rngc (python-cell-range-function))
+	  (rngn (save-excursion (python-cell-forward-cell)
+				(python-cell-range-function))))    
+      (goto-char (cdr rngn))
+      (kill-region (car rngc) (cdr rngc))
+      (yank)
+      (forward-char -1)
+      (python-cell-beginning-of-cell)))
+  )
+
 (defun python-cell-forward-cell  (&optional arg)
   (interactive "p")
-  ;; TODO: prefix support
 
-  (python-cell-end-of-cell)
-  (if (re-search-forward python-cell-cellbreak-regexp nil t)
-      (progn (end-of-line)
-             (forward-char 1))
-    (goto-char (point-max))))
+  (dotimes (_ (or arg 1))
+    (python-cell-end-of-cell)
+    (if (re-search-forward python-cell-cellbreak-regexp nil t)
+	(progn (end-of-line)
+               (forward-char 1))
+      (goto-char (point-max)))))
 
 (defun python-cell-backward-cell  (&optional arg)
   (interactive "p")
-  ;; TODO: prefix support
 
-  (python-cell-beginning-of-cell)
-  (forward-char -1)
-  (beginning-of-line)
-  (and (save-excursion (re-search-backward python-cell-cellbreak-regexp
-                                           nil t))
-       (= (match-beginning 0) (save-excursion
-                                (forward-char -1) (beginning-of-line) (point)))
-       (goto-char (match-beginning 0)))
+  (dotimes (_ (or arg 1))  
+    (python-cell-beginning-of-cell)
+    (forward-char -1)
+    (beginning-of-line)
+    (and (save-excursion (re-search-backward python-cell-cellbreak-regexp
+                                             nil t))
+	 (= (match-beginning 0) (save-excursion
+                                  (forward-char -1) (beginning-of-line) (point)))
+	 (goto-char (match-beginning 0)))
 
-  (if (> (point) (point-min))
-      (forward-char -1))
-  (if (re-search-backward python-cell-cellbreak-regexp nil t)
-      (progn (goto-char (match-end 0))
-             (end-of-line)
-             (forward-char 1))
-    (goto-char (point-min))))
+    (if (> (point) (point-min))
+	(forward-char -1))
+    (if (re-search-backward python-cell-cellbreak-regexp nil t)
+	(progn (goto-char (match-end 0))
+               (end-of-line)
+               (forward-char 1))
+      (goto-char (point-min)))))
 
 (defun python-cell-beginning-of-cell (&optional arg)
   (interactive "p")
-  ;; TODO: prefix support
+  ;; TODO: prefix support ?
 
   (end-of-line)
   (if (re-search-backward python-cell-cellbreak-regexp nil t)
       (progn (goto-char (match-end 0))
              (end-of-line)
              (forward-char 1))
-    (goto-char (point-min))))
+    (goto-char (point-min)))
+  (point))
 
 (defun python-cell-end-of-cell (&optional arg)
   (interactive "p")
-  ;; TODO: prefix support
+  ;; TODO: prefix support ?
 
   (end-of-line)
   (if (re-search-forward python-cell-cellbreak-regexp nil t)
       (progn (goto-char (match-beginning 0))
              (forward-char -1))
-    (goto-char (point-max))))
+    (goto-char (point-max)))
+  (point))
 
 
 (declare-function jupyter-eval-region "jupyter-client.el" (insert beg end))
